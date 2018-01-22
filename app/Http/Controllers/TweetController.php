@@ -129,4 +129,13 @@ class TweetController extends Controller
     {
         //
     }
+
+    public function fav($id)
+    {
+
+    }
+
+    public function rt($id)
+    {
+    }
 }
