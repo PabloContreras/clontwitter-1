@@ -31,4 +31,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tweet::class);
     }
+
+    public function follows($id)
+    {
+        return (Follow::where('user1_id',$this->id)->where('user2_id',$id)->count() > 0);
+    }
+
+    public function retweets() {
+        return Tweet::findMany(Retweet::where('user_id',$this->id)->select('tweet_id')->get());
+    }
 }

@@ -22,6 +22,7 @@ Route::get('/home', 'TweetController@index');
 
 Route::get('/profile','ProfileController@myProfile');
 Route::get('/profile/{id}','ProfileController@getProfile');
+Route::get('/profile/{id}/follow','ProfileController@follow');
 
 Route::get('tweet/create','TweetController@create');
 Route::get('tweet/{tweet}','TweetController@show');

@@ -8,10 +8,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>HAND Twitter</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!--FontAwesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
 </head>
 <body>
     <div id="app">
@@ -29,7 +32,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/home') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        HAND Twitter
                     </a>
                 </div>
 
@@ -53,6 +56,9 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="{{ url('/profile') }}">My Profile</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -63,9 +69,7 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    <li>
-                                        <a href="{{ url('/profile') }}">My Profile</a>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                         @endguest

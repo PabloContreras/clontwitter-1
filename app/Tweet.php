@@ -10,4 +10,14 @@ class Tweet extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+	public function favs()
+	{
+		return $this->hasMany(Fav::class);
+	}
+	public function retweets()
+	{
+		return $this->hasMany(Retweet::class);
+	}
+
+
 }

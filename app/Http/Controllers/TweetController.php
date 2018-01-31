@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tweet;
 use App\User;
+use App\Fav;
+use App\Retweet;
+use App\Follow;
 use Auth;
 
 class TweetController extends Controller
@@ -26,7 +29,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        $tweets = Tweet::all();
+        $tweets = Auth::user()->retweets()->merge(Auth::user()->tweets());
         return view('home',compact('tweets'));
     }
 
@@ -132,10 +135,36 @@ class TweetController extends Controller
 
     public function fav($id)
     {
-
+        $tweet = Tweet::find($id);
+        if(!$tweet) {
+            return redirect('/home');
+        }
+        if(Fav::where('user_id',Auth::id())->where('tweet_id',$tweet->id)->count() > 0){
+            Fav::where('user_id',Auth::id())->where('tweet_id',$tweet->id)->first()->delete();
+            return redirect('/tweet/'.$tweet->id);
+        }
+        $fav = new Fav;
+        $fav->tweet_id = $tweet->id;
+        $fav->user_id = Auth::id();
+        $fav->save();
+        return redirect('/tweet/'.$tweet->id);       
     }
 
     public function rt($id)
     {
+        $tweet = Tweet::find($id);
+        if(!$tweet) {
+            return redirect('/home');
+        }
+        if(Retweet::where('user_id',Auth::id())->where('tweet_id',$tweet->id)->count() > 0){
+            Retweet::where('user_id',Auth::id())->where('tweet_id',$tweet->id)->first()->delete();
+            return redirect('/tweet/'.$tweet->id);
+        }
+        $retweet = new Retweet;
+        $retweet->tweet_id = $tweet->id;
+        $retweet->user_id = Auth::id();
+        $retweet->save();
+        return redirect('/tweet/'.$tweet->id); 
     }
+
 }

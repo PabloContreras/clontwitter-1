@@ -5,7 +5,27 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-			    <div class="panel-heading"><h1>{{ '@'.$user->nickname }}</h1></div>
+			    <div class="panel-heading">
+			    <div class="row">
+			    	<div class="col-md-4">
+			    		<h1>{{ '@'.$user->nickname }} </h1>
+			    	</div>
+			    	<div class="col-md-8">
+			    	<br>
+					
+						@if (Auth::user()->follows($user->id))
+							<a href="{{ url('/profile/'.$user->id.'/follow') }}" class="btn btn-danger">
+							<i class="fa fa-times-circle-o" aria-hidden="true"></i>
+							Unfollow
+						@else
+							<a href="{{ url('/profile/'.$user->id.'/follow') }}" class="btn btn-info">
+							<i class="fa fa-plus-square-o" aria-hidden="true"></i>
+							Follow
+						@endif
+					</a>
+					</div>
+					</div>
+			    </div>
 
 			    <div class="panel-body">
 			        <p>{{$user->name}}</p>
