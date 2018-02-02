@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Tweet;
 use App\User;
 use App\Fav;
 use App\Retweet;
 use App\Follow;
 use Auth;
+use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class TweetController extends Controller
 {
@@ -29,7 +34,16 @@ class TweetController extends Controller
      */
     public function index()
     {
-        $tweets = Auth::user()->retweets()->merge(Auth::user()->tweets());
+        $tweet1 = Auth::user()->tweets()->get();
+        $tweet2 = Auth::user()->retweets();
+        
+        $tweet3 = collect(Auth::user()->currentFollows());
+
+        $tweet4 = $tweet3->each(function ($tweets_id,$key) {
+            $tweets = tweet::whereIn('id',Auth::user());
+            return $tweets;  
+        });
+        return $tweet4;
         return view('home',compact('tweets'));
     }
 
