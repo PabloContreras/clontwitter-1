@@ -38,8 +38,8 @@ class User extends Authenticatable
     }
     public function currentFollows()
     {
-        return User::findMany(Follow::select('user2_id')->where('user1_id',$this->id)->get());
-        //return (Follow::select('user2_id')->where('user1_id',$this->id)->get());
+        //return User::findMany(Follow::select('user2_id')->where('user1_id',$this->id)->get());
+        return (Follow::where('user1_id',$this->id)->get());
         
     }
     public function retweets() {

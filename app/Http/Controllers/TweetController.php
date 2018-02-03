@@ -36,14 +36,16 @@ class TweetController extends Controller
     {
         $tweet1 = Auth::user()->tweets()->get();
         $tweet2 = Auth::user()->retweets();
-        
-        $tweet3 = collect(Auth::user()->currentFollows());
-
-        $tweet4 = $tweet3->each(function ($tweets_id,$key) {
-            $tweets = tweet::whereIn('id',Auth::user());
+        $tweet3 = $tweet1->merge($tweet2)->all();
+        //$tweet3 = collect(Auth::user()->currentFollows());
+        /*$tweet4 = $tweet3->each(function ($tweets_id,$key) {
+            $tweets = tweet::whereIn('id',Auth::user()->currentFollows());
             return $tweets;  
-        });
-        return $tweet4;
+        });*/
+        $tweet4 = collect(DB::select('select * from tweets where user_id in (select user2_id from follows where user1_id = :id)',['id'=>Auth::id()]));
+        $tweet5 = $tweet4->merge($tweet3)->all();
+        $tweets = (object)$tweet5;
+        return $tweet5;
         return view('home',compact('tweets'));
     }
 
